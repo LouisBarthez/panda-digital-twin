@@ -9,7 +9,7 @@ Méthode (piste A du plan sim2real) :
      du cube (le centre de la silhouette d'un cube vu en biais ≈ projection de son centre 3D) ;
   4. orientation du cube (lacet) par le rectangle minimal de sa silhouette.
 
-Usage (PowerShell, venv activé, dans C:\\Users\\louis\\pfe_mujoco) :
+Usage (PowerShell, venv activé, à la racine du dépôt) :
     python perception/detection.py                  -> webcam en direct ; ESPACE = enregistrer, q = quitter
     python perception/detection.py --image perception/vue_webcam.png
     python perception/detection.py --reglage        -> curseurs pour régler les seuils HSV en direct

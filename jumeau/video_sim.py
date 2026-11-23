@@ -4,7 +4,7 @@ Rejoue dans la scène twin la dernière trajectoire envoyée au robot (jumeau/de
 écrite par jumeau_live.py à chaque touche R), ou une configuration donnée à la main, et l'enregistre
 en 1280x720 depuis une ou plusieurs caméras.
 
-Usage (PowerShell, venv activé, dans C:\\Users\\louis\\pfe_mujoco) :
+Usage (PowerShell, venv activé, à la racine du dépôt) :
     python jumeau/video_sim.py                          -> dernière trajectoire, vue 3/4
     python jumeau/video_sim.py --vue webcam             -> vue de la webcam (même cadrage que le réel)
     python jumeau/video_sim.py --vue toutes             -> 3/4 | webcam côte à côte (2560x720)

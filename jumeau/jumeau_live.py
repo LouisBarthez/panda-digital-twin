@@ -16,7 +16,7 @@ Touches, dans la fenêtre « Jumeau » (cliquer dessus d'abord) :
     Q / Échap = quitter
 Dans le viewer MuJoCo : flèches gauche/droite = caméra libre -> webcam -> d435.
 
-Usage (PowerShell, venv activé, dans C:\\Users\\louis\\pfe_mujoco) :
+Usage (PowerShell, venv activé, à la racine du dépôt) :
     python jumeau/jumeau_live.py --robot 10.254.79.65          -> avec le robot
     python jumeau/jumeau_live.py                               -> simulation seule (R désactivé)
     python jumeau/jumeau_live.py --image perception/vue_webcam.png   -> test sans webcam

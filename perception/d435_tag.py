@@ -4,7 +4,7 @@
   - sur l'Ubuntu : lire_pose --libre enregistre la pose du robot avec une étiquette (p1, p2...) ;
   - ici : ESPACE enregistre la pose du tag vue par la D435 (moyenne de 30 images) avec LA MÊME étiquette.
 
-Usage (PowerShell, dans C:\\Users\\louis\\pfe_mujoco) :
+Usage (PowerShell, à la racine du dépôt) :
     python perception/d435_tag.py --tag-size 0.080
 Touches dans la fenêtre : ESPACE = enregistrer (l'étiquette se tape dans la console), q = quitter.
 Sorties : perception/d435_tags.json (une entrée par étiquette) + perception/d435_calib/<etiquette>.png

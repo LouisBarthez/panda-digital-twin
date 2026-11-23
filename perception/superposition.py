@@ -1,7 +1,7 @@
 """Superpose la vue de la webcam VIRTUELLE (scène twin MuJoCo) sur l'image RÉELLE de la webcam.
 Si la table, le tag et le robot tombent au même endroit, la scène twin est géométriquement fidèle.
 
-Usage (PowerShell, dans C:\\Users\\louis\\pfe_mujoco) :
+Usage (PowerShell, à la racine du dépôt) :
     python perception/superposition.py                         -> image live de la webcam (caméra 1)
     python perception/superposition.py --image perception/vue_webcam.png
     python perception/superposition.py --q "0 -0.3 0 -2.2 0 1.9 0.8"   -> robot simulé dans cette pose
@@ -11,7 +11,7 @@ Sorties (dans perception/) :
     superposition_mix.png    mélange 50 % réel / 50 % sim
     reel_corrige.png         image réelle remappée sur la caméra idéale (sans distorsion)
 
-Convention (SUIVI_PFE §2) : la sim rend un sténopé idéal centré (fovy réel), donc l'image réelle est
+Convention : la sim rend un sténopé idéal centré (fovy réel), donc l'image réelle est
 d'abord remappée sur cette caméra idéale avec cv2.initUndistortRectifyMap(K, D, None, K_ideal).
 """
 import json

@@ -1,6 +1,6 @@
 """Vue en direct de la webcam globale pour régler son cadrage.
 
-Usage (PowerShell, dans C:\\Users\\louis\\pfe_mujoco) :
+Usage (PowerShell, à la racine du dépôt) :
     python perception/apercu_webcam.py
 
 Affiche la webcam (caméra 1, 1280x720) avec une grille en tiers :

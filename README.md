@@ -1,76 +1,107 @@
-# Panda pick-and-place: imitation learning vs reinforcement learning
+# Digital twin of a Franka Panda: pick-and-place checked in simulation, then run on the real robot
 
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![MuJoCo](https://img.shields.io/badge/MuJoCo-3.x-0A7BBB)
+![libfranka](https://img.shields.io/badge/libfranka-0.8.0%20(C%2B%2B)-555555)
+![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?logo=opencv&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-CPU-EE4C2C?logo=pytorch&logoColor=white)
 ![Stable-Baselines3](https://img.shields.io/badge/Stable--Baselines3-SAC-6A5ACD)
 ![Status](https://img.shields.io/badge/status-work%20in%20progress-orange)
 
-A Franka Panda learns to pick up a cube and place it on a target, both placed at random, in MuJoCo.
-The same task is solved twice: once by **imitating a scripted expert from camera images**, once by
-**reinforcement learning from a reward only**, so the two approaches can be compared.
-
-This is my final-year engineering project (PFE, Polytech Montpellier),
-*Digital twin and AI for autonomous robotic manipulation with a Franka Panda*.
-It started in simulation on a laptop CPU, and now runs on the **real robot through a live digital twin**
-(see [Digital twin on the real robot](#digital-twin-on-the-real-robot)).
-
 ![digital twin](media/digital_twin.gif)
 
-*Left: the real setup seen by the webcam. Right: its digital twin in MuJoCo, updated live. The expert is first
-played in the twin, then the real robot replays exactly the same motion while the twin follows it.
+*Left: the real bench seen by a webcam. Right: its digital twin in MuJoCo, updated live. The scripted expert is first
+played in the twin; only then does the real Franka Panda replay exactly the same motion, while the twin follows it.
 [Full video](media/digital_twin.mp4).*
 
-| Scripted expert | Imitation learning (2 cameras) | Reinforcement learning (SAC) |
-|:---:|:---:|:---:|
-| ![expert](media/expert.gif) | ![il](media/il_bc_vision.gif) | ![rl](media/rl_sac.gif) |
-| reads the exact simulator state | sees only a fixed camera, a wrist camera and its joint angles (right panels) | learns from a reward, no demonstrations |
+A **digital twin** of a real Franka Panda and its lab bench, built in MuJoCo: the robot, the tables (including
+their 2° slope and a cable hole), the cameras, the cube and the target, all calibrated in the robot's own frame.
+The twin is kept in sync with reality (a webcam places the cube and the target, the virtual arm copies the real joint
+angles), and every motion is **played in the twin first**: the real robot only executes it if the simulation succeeds
+and nothing has moved since. The webcam then measures what really happened, so plan and outcome can be compared.
 
-## Results
+The project also compares two ways of learning the task, **imitation learning** from a scripted expert and
+**reinforcement learning** from a reward. They are trained so far in a generic simulated scene; the next step is to
+train them in the calibrated twin and run them on the robot through the same check-then-execute loop.
 
-Evaluated on 50 cube and target positions never seen during training.
+This is my final-year engineering project (PFE) at Polytech Montpellier, with the company EuroDAO:
+*Digital twin and AI for autonomous robotic manipulation with a Franka Panda*.
+MuJoCo is used on a laptop CPU while the Isaac Sim workstation planned for the project is not available.
 
-| | Imitation learning (behavior cloning) | Reinforcement learning (SAC) |
-|---|---|---|
-| Input | 2 RGB cameras (96 × 96) + 7 joint angles + gripper width | exact state (tool, cube and target positions) |
-| What it needs | a scripted expert and 150 demonstrations | a well-designed reward |
-| Success | **50/50** | **49/50** |
-| Compute (laptop CPU) | ~20 min of demos + ~50 min of training | ~4 h for 500k steps |
-| Hardest part | choosing the cameras, designing an imitable expert | writing the reward |
+| | |
+|---|---|
+| Twin vs real robot, same joint angles | fingertip positions within **0.002 mm** |
+| Cube detected by the webcam (vs the robot as ground truth) | **1.8 mm**, yaw **3.2°** (mean, cross-validated) |
+| Real pick-and-place, cube to target | **1.0–4.1 mm** (5 measured runs) |
+| Learning in simulation, 50 unseen episodes | behavior cloning from 2 cameras **50/50**, SAC **49/50** |
 
-The comparison is not yet apples to apples: the IL policy works from images, the RL policy from the exact state.
-The [Perception](#perception-simulated-rgb-d-camera) section below replaces that exact state with positions estimated
-by a simulated depth camera.
+**Contents**: [the digital twin on the real robot](#digital-twin-on-the-real-robot) ·
+[learning in simulation (IL vs RL)](#learning-in-simulation-imitation-vs-reinforcement-learning) ·
+[simulated RGB-D perception](#simulated-rgb-d-perception) · [repository layout](#repository-layout) ·
+[quick start](#quick-start) · [next steps](#next-steps)
 
 ## Digital twin on the real robot
 
-The twin is a MuJoCo copy of **this** robot and **this** lab bench, kept in sync with reality, and used to
-check a motion **before** the real robot executes it.
+![setup](media/setup.jpg)
 
-| Live update | Check in the twin (key E) | Execute on the robot (key R) |
+The bench: a Franka Panda on its own small table, a work table next to it, a blue 40 mm cube and a green 60 mm
+target (both 3D-printed), an AprilTag glued on the table, a webcam on a tripod looking down at the scene, and a
+RealSense D435 on the wrist.
+
+| 1. Live update | 2. Check in the twin (key E) | 3. Execute on the robot (key R) |
 |---|---|---|
-| A webcam detects the cube and the target ~6 times per second; they move in the twin as they move on the table. The virtual arm copies the real joint angles. | The scripted expert plans the pick-and-place from the real arm pose and plays it in MuJoCo: inverse kinematics, collisions with the tables, grasp, placement. | Only if the simulation succeeded and nothing moved since: the real Panda replays **the same joint waypoints**, slowly. The twin follows the real arm at 25 Hz, then the webcam measures where the cube really ended up. |
+| The webcam detects the cube and the target ~6 times per second; they move in the twin as they move on the table. The virtual arm copies the real joint angles. | The scripted expert plans the pick-and-place from the real arm pose and plays it in MuJoCo: inverse kinematics, collisions with the tables, grasp, placement. | Only if the simulation succeeded and nothing moved since: the real Panda replays **the same joint waypoints**, slowly. The twin follows the real arm at 25 Hz, then the webcam measures where the cube really ended up. |
 
-**Calibrating the twin.** Everything is expressed in the robot base frame and measured with the robot itself
-(a pencil held in the gripper, its tip located to ~1–2 mm):
+### Calibrating the twin
 
-- **Webcam pose**: an AprilTag (tag36h11, 80 mm) is glued on the table. Its 4 corners were touched with the pencil
-  (rigid fit residuals ≤ 1.4 mm), and `solvePnP` on the tag gives the camera pose at every session, so a bumped tripod
-  is detected and corrected (`perception/recaler_webcam.py`). Intrinsics: Zhang's method, 45 images, 0.63 px.
-- **Scene**: the work table is not level (plane fitted on 9 touched points, 2.1° slope, residuals ≤ 2.7 mm), and its
-  cable hole is modelled as a real hole. Simulated and real images overlap edge for edge (`perception/superposition.py`):
+Everything is expressed in the robot base frame and **measured with the robot itself**: a pencil held in the
+gripper is brought onto points of the scene, and the robot reports where its tip is (pencil length recovered by also
+touching the robot's own table, consistent to ±0.7 mm).
+
+![pencil calibration](media/calib_pencil.jpg)
+
+- **Webcam**: intrinsics by Zhang's method (45 checkerboard images, 0.63 px). For its pose, an AprilTag (tag36h11,
+  80 mm) is glued on the table; its 4 corners were touched with the pencil (rigid fit residuals ≤ 1.4 mm), and
+  `solvePnP` on the tag gives the camera pose in the robot frame, `T_base_cam = T_base_tag · T_cam_tag⁻¹`.
+  The tag is re-measured at the start of every session, so a bumped tripod is detected and corrected
+  (`perception/recaler_webcam.py`). Check: the points touched by the robot, projected into the webcam image with this
+  pose, land on the right pixels, and so does the robot base frame:
+
+  ![reprojection check](media/calib_reprojection.jpg)
+- **Scene**: the work table is not level. A plane fitted on 9 touched points gives a 2.1° slope (residuals ≤ 2.7 mm):
+  averaging the heights would have left centimetre errors at the far edge. The cable hole next to the tag is measured
+  (two circles fitted on touched points) and modelled as a real hole, since MuJoCo only collides convex shapes: the
+  table top is built from boxes around an octagonal opening. The tag is rendered with its real pattern, and OpenCV
+  detects it in the simulated image at the same pixel as in the real one. Real and simulated views side by side:
 
   ![twin overlay](media/twin_overlay.jpg)
+- **Wrist RealSense D435** (hand-eye calibration, `perception/calib_d435.py`): the tag corners seen from 11 robot poses
+  are expressed in the hand frame and a single `solvePnP` gives the camera pose on the hand, 4.7 px mean reprojection
+  error (~3–4 mm). The first method, one estimate per pose averaged, scattered by 21 mm, because the orientation of a
+  small tag seen from far is noisy. Not used by the twin's control loop yet.
+
+  ![hand-eye](media/handeye_d435.jpg)
 - **Robot model**: for the same joint angles, the fingertip position computed by MuJoCo (Menagerie model, TCP 103.4 mm
   below the flange) and the one reported by the robot (`O_T_EE`) differ by **0.002 mm**. Gravity compensation is turned
   on for the simulated arm: without it, the Menagerie position actuators sag by 5–7 mm under the arm's weight, while
   the real Panda compensates gravity itself.
 
-**Perception** (webcam only, `perception/detection.py`): HSV thresholding, then the cube mask is refined with a
-blue-minus-red channel and Otsu's threshold, and a **3D cube model is fitted to the silhouette** (position and yaw that
-maximize the overlap of the projected cube with the mask). Checked against the robot (open gripper centred on the cube),
-8 trials, leave-one-out cross-validation: **cube 1.8 mm (max 2.9 mm), yaw 3.2° (max 7.4°), target 2.6 mm**.
-The simpler "centre of the blob + minimum rectangle" gave 2.5 mm and 9.0° (max 21.5°).
+### Perception on the real webcam
+
+![detection](media/detection_webcam.jpg)
+
+`perception/detection.py`: the image is undistorted onto the ideal pinhole camera used by the twin, then HSV
+thresholding finds the blue cube and the green target. The cube mask is refined with a blue-minus-red channel and
+Otsu's threshold (the HSV mask missed the dark side faces), and a **3D cube model is fitted to the silhouette**: the
+position and yaw whose projected cube best overlaps the mask (white outline above). The target is the intersection of
+the camera ray with the sloped table plane.
+
+Checked against the robot (open gripper centred on the cube, pencil on the target), leave-one-out cross-validation
+of a small affine correction: **cube 1.8 mm (max 2.9 mm), yaw 3.2° (max 7.4°), target 2.6 mm**. The simpler
+"centre of the blob + minimum rectangle" gave 2.5 mm and 9.0° (max 21.5°): seen at an angle, the side faces stretch
+the blob and tilt the rectangle.
+
+### Check in the twin, then execute
 
 **Why joint waypoints.** The real robot must execute exactly what was checked. The expert (same logic as
 `common/test_expert.py`: above the cube, down, close, up, transport, down, open, up, back) is written as 7-joint
@@ -83,24 +114,30 @@ robot still at the start pose used by the simulation (0.03 rad, checked on both 
 joint limits, speed ≤ 0.3 and grasp force 5–40 N checked by the robot server; low libfranka collision thresholds;
 failed grasp → gripper reopens and the arm goes back up.
 
-**First results on the real robot** (23/11/2026, speed factor 0.1, one run ≈ 30 s):
+### Results on the real robot
+
+**First runs** (23/11/2026, speed factor 0.1, one run ≈ 30 s):
 
 | | value |
 |---|---|
 | Runs executed | 8 |
 | Placement error measured by the webcam (5 runs) | **1.0 / 2.9 / 3.5 / 4.1 / 2.9 mm** |
 | Same runs in the twin before execution | 2.0–3.7 mm |
-| Not yet explained | 2 runs with the final cube 11 and 24 cm away from the target, 1 libfranka stop at the first run |
+| Excluded, cause not identified yet | 2 runs with a final measurement 11 and 24 cm away from the target; 1 libfranka stop on the very first run |
 
-The detailed log of every run (plan, simulated and measured errors, joint angles at each waypoint, gripper width)
-is in `jumeau/results/`.
+These errors are close to the precision of the webcam measurement itself (~2–3 mm), so more runs, and a finer
+measurement, are needed before drawing a statistical conclusion. The detailed log of every run (plan, simulated and measured errors, joint angles at each
+waypoint, gripper width) is in `jumeau/results/`.
 
-**Architecture.** libfranka needs Linux with a 1 kHz control loop, so the work is split over two PCs on the same
-network: the Windows laptop runs the webcam, the detection, MuJoCo and the planner; the Ubuntu PC runs a small TCP
-server (`ubuntu/serveur_robot.py`, standard library only) and a C++ libfranka 0.8.0 program (`ubuntu/jumeau_robot.cpp`)
-that reads the robot state or executes a validated list of waypoints. While moving, the 1 kHz loop only stores the
-measured joint angles in atomic variables; another thread sends them every 40 ms, so the real-time loop is never slowed
-down by the network.
+### Architecture
+
+libfranka needs Linux with a 1 kHz control loop, so the work is split over two PCs: the Windows laptop runs the
+webcam, the detection, MuJoCo and the planner; the Ubuntu PC wired to the robot runs a small TCP server
+(`ubuntu/serveur_robot.py`, standard library only) and a C++ libfranka 0.8.0 program (`ubuntu/jumeau_robot.cpp`, the
+version imposed by the robot's firmware) that reads the robot state or executes a validated list of waypoints. While
+moving, the 1 kHz loop only stores the measured joint angles in atomic variables; another thread sends them every
+40 ms, so the real-time loop is never slowed down by the network. (The university Wi-Fi isolates devices from each
+other, so the two PCs talk through a phone hotspot.)
 
 ```
 webcam ──> detection (cube, target) ──> MuJoCo twin ──> expert planned + played in the twin (E)
@@ -109,7 +146,35 @@ webcam ──> detection (cube, target) ──> MuJoCo twin ──> expert plann
                                               └──── Ubuntu: serveur_robot.py ──> jumeau_robot (libfranka) ──> Panda
 ```
 
-## The task
+## Learning in simulation: imitation vs reinforcement learning
+
+This part came first and runs entirely in simulation, in a **generic** MuJoCo scene (`common/panda_pick_env.py`:
+plain floor, cube and target at random, cameras placed by hand), not yet in the calibrated twin.
+The same task is solved twice: once by **imitating a scripted expert from camera images**, once by
+**reinforcement learning from a reward only**.
+
+| Scripted expert | Imitation learning (2 cameras) | Reinforcement learning (SAC) |
+|:---:|:---:|:---:|
+| ![expert](media/expert.gif) | ![il](media/il_bc_vision.gif) | ![rl](media/rl_sac.gif) |
+| reads the exact simulator state | sees only a fixed camera, a wrist camera and its joint angles (right panels) | learns from a reward, no demonstrations |
+
+### Results in simulation
+
+Evaluated on 50 cube and target positions never seen during training.
+
+| | Imitation learning (behavior cloning) | Reinforcement learning (SAC) |
+|---|---|---|
+| Input | 2 RGB cameras (96 × 96) + 7 joint angles + gripper width | exact state (tool, cube and target positions) |
+| What it needs | a scripted expert and 150 demonstrations | a well-designed reward |
+| Success | **50/50** | **49/50** |
+| Compute (laptop CPU) | ~20 min of demos + ~50 min of training | ~4 h for 500k steps |
+| Hardest part | choosing the cameras, designing an imitable expert | writing the reward |
+
+The comparison is not yet apples to apples: the IL policy works from images, the RL policy from the exact state.
+The [simulated perception](#simulated-rgb-d-perception) section replaces that exact state with positions estimated
+by a simulated depth camera.
+
+### The task
 
 - **Robot**: Franka Panda from [MuJoCo Menagerie](https://github.com/google-deepmind/mujoco_menagerie), controlled with
   4 actions: a Cartesian displacement of the tool (up to 2 cm per step) and open/close the gripper.
@@ -117,7 +182,7 @@ webcam ──> detection (cube, target) ──> MuJoCo twin ──> expert plann
 - **Episode**: 100 steps of 40 ms (4 s). Cube (4 cm) and green target mark drawn at random on the table.
 - **Success**: at the end of the episode, the cube rests within 3 cm of the target **and has been released**.
 
-## Imitation learning
+### Imitation learning
 
 1. A **scripted expert** (state machine + proportional controller) reads the exact simulator state and solves the task 49/50.
 2. It records 150 demonstrations: camera images, joint angles, and its own actions.
@@ -134,7 +199,7 @@ each failure into perception, imitation and closed-loop drift, using the simulat
   Adding a wrist camera took the policy from 35/50 to 50/50: the fixed camera tells *where to go*, the wrist camera gives the final precision.
 - DAgger (the expert relabels the states the policy visits) was implemented but not needed in the end.
 
-## Reinforcement learning
+### Reinforcement learning
 
 SAC (Stable-Baselines3) on the exact state, with a staged reward: reach the cube, hold it, bring it to the target, release it.
 
@@ -152,7 +217,7 @@ Most of the work went into the reward, and each failure is a classic RL lesson:
 The final policy succeeds 49/50 and is faster than the expert. It does not retract the arm after releasing,
 because nothing rewards it yet. The RL agent only does what the reward asks.
 
-## Perception (simulated RGB-D camera)
+## Simulated RGB-D perception
 
 So far the expert and the RL policy read the cube and target positions straight from the simulator.
 Here they come from a **simulated depth camera** instead, through a classic detection pipeline.
@@ -306,10 +371,9 @@ python jumeau/video_sim.py --gif          # video of the last trajectory, simula
 
 ## Next steps
 
-- A longer series of real runs (10–20 positions, yaw 0–90°) to compare twin and reality statistically.
-- Train the IL and RL policies in the calibrated twin and run them on the real robot through the same
+- A longer series of real runs (10–20 positions, yaw 0–90°) to compare the twin and reality statistically.
+- Train the IL and RL policies in the **calibrated twin** scene, then run them on the real robot through the same
   check-then-execute loop, against the expert.
-- Use the wrist RealSense D435 (already calibrated hand-eye): check the grasp, refine the cube position just before
-  grasping, obstacles from depth.
-- Human demonstrations through teleoperation (haptic interface) instead of a scripted expert.
-- Obstacle avoidance, then the same task in Isaac Sim.
+- Use the wrist RealSense D435 (already hand-eye calibrated): check the grasp, refine the cube position just before
+  grasping, see obstacles in depth.
+- Obstacle avoidance (part of the project subject), human demonstrations through teleoperation, then Isaac Sim.

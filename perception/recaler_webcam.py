@@ -6,7 +6,7 @@
    robot : T_base_cam = T_base_tag0 . T_cam_tag0^-1), après avoir gardé une copie datée des anciens.
 La scène twin (twin_scene.py) et superposition.py relisent automatiquement le nouveau fichier.
 
-Usage (PowerShell, dans C:\\Users\\louis\\pfe_mujoco) :
+Usage (PowerShell, à la racine du dépôt) :
     python perception/recaler_webcam.py              -> mesure, compare, demande avant d'écraser
     python perception/recaler_webcam.py --oui        -> écrase sans demander
 """

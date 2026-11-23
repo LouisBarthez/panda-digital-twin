@@ -9,7 +9,7 @@ Adapté du script du tuteur (apriltag2.py) au setup de Louis :
     n'alerte qu'au-delà de --seuil-mm (10 mm) ou --seuil-deg (1°).
     Affiche aussi le bruit de mesure (écart-type de la position de la caméra).
 
-Usage (PowerShell, dans C:\\Users\\louis\\pfe_mujoco) :
+Usage (PowerShell, à la racine du dépôt) :
     python perception/apriltag_pose.py --tag-size 0.100
     python perception/apriltag_pose.py --tag-size 0.100 --save-ref
 Touches : q = quitter, r = enregistrer la référence (comme --save-ref)

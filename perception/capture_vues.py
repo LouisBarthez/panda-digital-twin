@@ -1,6 +1,6 @@
 """Capture une image de chaque caméra pour vérifier les angles de vue.
 
-Usage (PowerShell, dans C:\\Users\\louis\\pfe_mujoco, venv activé) :
+Usage (PowerShell, à la racine du dépôt, venv activé) :
     python perception/capture_vues.py
     python perception/capture_vues.py --no-webcam      (D435 seule)
 

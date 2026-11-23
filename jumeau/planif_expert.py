@@ -11,7 +11,7 @@ Nouveautés par rapport à l'ancien expert :
   - les hauteurs suivent la table rouge inclinée (red_z) ;
   - départ de la pose RÉELLE du robot, retour à cette pose à la fin (bras hors du champ de la webcam).
 
-Test sans webcam ni robot (PowerShell, venv activé, dans C:\\Users\\louis\\pfe_mujoco) :
+Test sans webcam ni robot (PowerShell, venv activé, à la racine du dépôt) :
     python jumeau/planif_expert.py                         -> positions de perception/detection.json
     python jumeau/planif_expert.py --cube 0.55 -0.10 30 --cible 0.60 0.15
     python jumeau/planif_expert.py --test 20               -> 20 tirages aléatoires, taux de réussite

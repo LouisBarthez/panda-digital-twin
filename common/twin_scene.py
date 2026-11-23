@@ -1,7 +1,7 @@
 """Scène MuJoCo « twin » : le Panda dans la VRAIE géométrie du setup du labo.
 
 Ne modifie pas panda_pick_env.py (l'ancienne scène reste intacte pour l'IL/RL déjà entraînés).
-Toutes les mesures viennent de la calibration du 20/11/2026 (voir SUIVI_PFE.md §7) :
+Toutes les mesures viennent de la calibration du 20/11/2026 (méthode et chiffres : README, section « Digital twin on the real robot ») :
   - perception/T_base_tag0.json      : tag 0 dans le repère robot (coins touchés au crayon)
   - perception/webcam_pose_base.json : webcam dans le repère robot (tag + solvePnP)
   - tables : dimensions mesurées au mètre, bords retrouvés sur l'image webcam
