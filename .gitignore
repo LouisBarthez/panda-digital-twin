@@ -12,3 +12,16 @@ rl/rl_log.csv
 rl/rl_courbe.png
 il/diag/
 videos/*.mp4
+
+# jumeau numerique : fichiers produits en seance (videos, images, essais, calibrations locales)
+jumeau/videos/
+jumeau/essais_img/
+jumeau/essais_reels.json
+jumeau/derniere_trajectoire.json
+perception/webcam_index.txt
+perception/archives_calib/
+perception/captures/
+perception/essais_img/
+perception/d435_calib/
+perception/calib_webcam*/
+perception/*.png

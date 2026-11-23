@@ -1,0 +1,51 @@
+{
+  "camera": {
+    "modele": "RealSense D435",
+    "serie": "143122078483",
+    "firmware": "5.12.7.150",
+    "usb": "3.2"
+  },
+  "resolution": [
+    1280,
+    720,
+    30
+  ],
+  "depth_scale": 0.0010000000474974513,
+  "couleur": {
+    "largeur": 1280,
+    "hauteur": 720,
+    "fx": 909.5984497070312,
+    "fy": 908.4180297851562,
+    "cx": 651.1142578125,
+    "cy": 372.8271789550781,
+    "distorsion_modele": "distortion.inverse_brown_conrady",
+    "distorsion_coeffs": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "champ_horizontal_deg": 70.26098822140253,
+    "champ_vertical_deg": 43.2361844840742
+  },
+  "profondeur": {
+    "largeur": 1280,
+    "hauteur": 720,
+    "fx": 642.3091430664062,
+    "fy": 642.3091430664062,
+    "cx": 644.946044921875,
+    "cy": 349.98309326171875,
+    "distorsion_modele": "distortion.brown_conrady",
+    "distorsion_coeffs": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "champ_horizontal_deg": 89.793647250038,
+    "champ_vertical_deg": 58.53932284925465
+  },
+  "note": "profondeur alignee sur la couleur dans ce script : utiliser les intrinseques couleur"
+}

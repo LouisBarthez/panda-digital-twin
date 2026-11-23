@@ -1,0 +1,27 @@
+{
+  "largeur": 1280,
+  "hauteur": 720,
+  "series": [
+    "calib_webcam_serie1:25",
+    "calib_webcam:25",
+    "calib_webcam_petit:12.5"
+  ],
+  "n_images": 45,
+  "k3_bloque": true,
+  "erreur_reprojection_px": 0.6316423786483134,
+  "fx": 1108.786386178421,
+  "fy": 1108.9843572313086,
+  "cx": 622.2863706507403,
+  "cy": 371.2029317498328,
+  "distorsion_k1k2p1p2k3": [
+    0.144291463180594,
+    -0.26348983100766227,
+    0.004893413839388774,
+    -0.0024796817883671963,
+    0.0
+  ],
+  "champ_horizontal_deg": 59.98774324226169,
+  "champ_vertical_deg": 35.96907406609847,
+  "rectitude_brute_px": 0.38851904256476294,
+  "rectitude_corrigee_px": 0.30020889656411276
+}
