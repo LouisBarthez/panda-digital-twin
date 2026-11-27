@@ -279,7 +279,7 @@ def rejouer(j, q_depart, cube_xy, lacet_deg, cible_xy, etapes):
         if bilan["contacts"]:
             bilan["message"] = "COLLISION : " + ", ".join(bilan["contacts"][:3])
             return bilan
-        if e.get("nom") == "montee" and d.xpos[j.cube_b][2] - z_cube0 < 0.10:
+        if str(e.get("nom", "")).startswith("montee") and d.xpos[j.cube_b][2] - z_cube0 < 0.05:
             bilan["message"] = f"le cube n'est pas monté avec la pince (largeur {bilan['largeur_prise'] * 1000:.0f} mm)"
             return bilan
     # bilan final

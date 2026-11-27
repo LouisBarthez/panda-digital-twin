@@ -9,6 +9,9 @@ contre deux faces opposées, bien centrée -> étiquette pince_c1, pince_c2...
 Fichier de vérité : perception/verite_cube.txt
 
 Usage :  python perception/evaluer_detection.py
+         python perception/evaluer_detection.py --serie d --verite verite_cube_d.txt
+             (n'utilise que les essais dont l'étiquette commence par « d » : indispensable après un
+              recalage de la webcam, les anciennes images ne correspondent plus à la nouvelle pose)
 Affiche, pour la méthode « centroide » (1re version) et « modele » (ajustement d'un cube 3D) :
 erreur de position et de lacet bruts, puis erreur de position après correction affine en validation
 croisée (un essai laissé de côté). Enregistre la correction du cube pour la meilleure méthode.
@@ -28,9 +31,13 @@ def ecart_mod90(a, b):
     return (a - b + 45.0) % 90.0 - 45.0
 
 
+def _arg(nom, defaut):
+    return sys.argv[sys.argv.index(nom) + 1] if nom in sys.argv else defaut
+
+
 def charger_verite():
     V = {}
-    for line in open(os.path.join(HERE, "verite_cube.txt")):
+    for line in open(os.path.join(HERE, _arg("--verite", "verite_cube.txt"))):
         a = line.split()
         if len(a) >= 13 and a[0].startswith("pince_"):
             p = np.array(a[1:4], float)
@@ -40,7 +47,8 @@ def charger_verite():
 
 
 def main():
-    V = charger_verite()
+    serie = _arg("--serie", "")
+    V = {k: v for k, v in charger_verite().items() if k.startswith(serie)}
     labels = [k for k in sorted(V) if os.path.exists(os.path.join(HERE, "essais_img", f"{k}.png"))]
     manquants = [k for k in V if k not in labels]
     if manquants:
@@ -93,6 +101,14 @@ def main():
         print(f"  {m:10s} position brute {ep.mean():5.1f} mm (max {ep.max():5.1f})"
               f" | corrigée (val. croisée) {np.mean(loo):5.1f} mm (max {np.max(loo):5.1f})"
               f" | lacet {el.mean():4.1f}° (max {el.max():4.1f}°)")
+
+    path0 = os.path.join(HERE, "correction_detection.json")
+    if os.path.exists(path0):
+        c0 = json.load(open(path0)).get("cube")
+        if c0 and c0.get("methode_detection") in bilan:
+            M0 = np.array(c0["M"])
+            e0 = [1000 * np.linalg.norm(np.r_[r[1], 1.0] @ M0 - r[2]) for r in bilan[c0["methode_detection"]][2]]
+            print(f"  avec l'ANCIENNE correction ({c0['methode_detection']}) : {np.mean(e0):5.1f} mm (max {np.max(e0):5.1f})")
 
     best = min(bilan, key=lambda m: bilan[m][1])
     rows = bilan[best][2]

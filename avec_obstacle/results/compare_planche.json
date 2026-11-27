@@ -1,0 +1,2465 @@
+{
+ "expert (planificateur)": [
+  {
+   "seed": 0,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 133,
+   "longueur_q": 8.592457238657277
+  },
+  {
+   "seed": 1,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 130,
+   "longueur_q": 8.438550806304086
+  },
+  {
+   "seed": 2,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 115,
+   "longueur_q": 5.951300146195973
+  },
+  {
+   "seed": 3,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.3934751749998817e-12
+  },
+  {
+   "seed": 5,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 195,
+   "longueur_q": 15.6691645693702
+  },
+  {
+   "seed": 6,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 106,
+   "longueur_q": 7.134136934789479
+  },
+  {
+   "seed": 7,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 145,
+   "longueur_q": 13.064332643658586
+  },
+  {
+   "seed": 8,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 111,
+   "longueur_q": 6.466285096825906
+  },
+  {
+   "seed": 9,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.098314577647642e-12
+  },
+  {
+   "seed": 10,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 117,
+   "longueur_q": 7.368356593835614
+  },
+  {
+   "seed": 11,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 130,
+   "longueur_q": 8.327562898173456
+  },
+  {
+   "seed": 12,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 107,
+   "longueur_q": 5.757560448835014
+  },
+  {
+   "seed": 13,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 108,
+   "longueur_q": 6.485087652100681
+  },
+  {
+   "seed": 14,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 111,
+   "longueur_q": 6.635831494629642
+  },
+  {
+   "seed": 16,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 147,
+   "longueur_q": 10.165612198578572
+  },
+  {
+   "seed": 17,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 166,
+   "longueur_q": 9.764492201128492
+  },
+  {
+   "seed": 18,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 143,
+   "longueur_q": 7.667487990856163
+  },
+  {
+   "seed": 19,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 112,
+   "longueur_q": 6.885689778211162
+  },
+  {
+   "seed": 20,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 97,
+   "longueur_q": 5.6192867935205335
+  },
+  {
+   "seed": 21,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 137,
+   "longueur_q": 8.357805267835957
+  },
+  {
+   "seed": 22,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 103,
+   "longueur_q": 6.578071777091777
+  },
+  {
+   "seed": 23,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 107,
+   "longueur_q": 5.570224791688416
+  },
+  {
+   "seed": 24,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 127,
+   "longueur_q": 8.496173816637121
+  },
+  {
+   "seed": 25,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 145,
+   "longueur_q": 9.653722527530162
+  },
+  {
+   "seed": 26,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 130,
+   "longueur_q": 7.720237944608647
+  },
+  {
+   "seed": 27,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 113,
+   "longueur_q": 7.07548587675145
+  },
+  {
+   "seed": 29,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 99,
+   "longueur_q": 5.63992736932737
+  },
+  {
+   "seed": 30,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 105,
+   "longueur_q": 5.629090642923035
+  },
+  {
+   "seed": 31,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.565850309999007e-12
+  },
+  {
+   "seed": 32,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 109,
+   "longueur_q": 6.057834151515497
+  },
+  {
+   "seed": 34,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 118,
+   "longueur_q": 5.812844572715407
+  },
+  {
+   "seed": 35,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 112,
+   "longueur_q": 6.489398671233915
+  },
+  {
+   "seed": 36,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 115,
+   "longueur_q": 6.786345186964121
+  },
+  {
+   "seed": 37,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 113,
+   "longueur_q": 6.473695379709333
+  },
+  {
+   "seed": 38,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 128,
+   "longueur_q": 7.14854831168178
+  },
+  {
+   "seed": 39,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 101,
+   "longueur_q": 6.063283349214855
+  },
+  {
+   "seed": 40,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 108,
+   "longueur_q": 5.230683348470231
+  },
+  {
+   "seed": 41,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 98,
+   "longueur_q": 5.672703699273298
+  },
+  {
+   "seed": 42,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 104,
+   "longueur_q": 6.846439002228923
+  },
+  {
+   "seed": 43,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 124,
+   "longueur_q": 7.567529442315754
+  },
+  {
+   "seed": 44,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 134,
+   "longueur_q": 10.104139738918843
+  },
+  {
+   "seed": 45,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 102,
+   "longueur_q": 6.172842205008697
+  },
+  {
+   "seed": 46,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 145,
+   "longueur_q": 9.820447624068244
+  },
+  {
+   "seed": 47,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 96,
+   "longueur_q": 5.871254727088761
+  },
+  {
+   "seed": 48,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 112,
+   "longueur_q": 6.298095750054994
+  },
+  {
+   "seed": 49,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 132,
+   "longueur_q": 8.699320180861012
+  },
+  {
+   "seed": 50,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 94,
+   "longueur_q": 4.861050352297838
+  },
+  {
+   "seed": 52,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 114,
+   "longueur_q": 5.633737593601302
+  },
+  {
+   "seed": 53,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 96,
+   "longueur_q": 6.321810219701475
+  },
+  {
+   "seed": 54,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 98,
+   "longueur_q": 5.855211053133561
+  },
+  {
+   "seed": 55,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 103,
+   "longueur_q": 5.996541706760197
+  },
+  {
+   "seed": 56,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 97,
+   "longueur_q": 5.3541198498242535
+  },
+  {
+   "seed": 57,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 136,
+   "longueur_q": 8.918098432030227
+  },
+  {
+   "seed": 58,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 105,
+   "longueur_q": 6.112323131205827
+  },
+  {
+   "seed": 59,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 123,
+   "longueur_q": 8.003562956816966
+  },
+  {
+   "seed": 60,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 99,
+   "longueur_q": 5.2966211633945655
+  },
+  {
+   "seed": 61,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 127,
+   "longueur_q": 7.584192238262586
+  },
+  {
+   "seed": 62,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 124,
+   "longueur_q": 6.934691683560962
+  },
+  {
+   "seed": 63,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 126,
+   "longueur_q": 8.094593011326058
+  },
+  {
+   "seed": 64,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 110,
+   "longueur_q": 5.818710656493547
+  },
+  {
+   "seed": 65,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 108,
+   "longueur_q": 6.425054817739848
+  },
+  {
+   "seed": 66,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 157,
+   "longueur_q": 13.361289529506413
+  },
+  {
+   "seed": 67,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 114,
+   "longueur_q": 7.505021791667935
+  },
+  {
+   "seed": 68,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 105,
+   "longueur_q": 6.194916019630784
+  },
+  {
+   "seed": 69,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 121,
+   "longueur_q": 7.768696279857492
+  },
+  {
+   "seed": 71,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 112,
+   "longueur_q": 6.516674770011368
+  },
+  {
+   "seed": 72,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 123,
+   "longueur_q": 8.253972619104971
+  },
+  {
+   "seed": 73,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 117,
+   "longueur_q": 6.470142267758428
+  },
+  {
+   "seed": 74,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 115,
+   "longueur_q": 7.712094678003018
+  },
+  {
+   "seed": 75,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 111,
+   "longueur_q": 6.36731729557406
+  },
+  {
+   "seed": 77,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 105,
+   "longueur_q": 6.055109580166084
+  },
+  {
+   "seed": 78,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 176,
+   "longueur_q": 12.030966670862858
+  },
+  {
+   "seed": 79,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 140,
+   "longueur_q": 7.120666175766
+  },
+  {
+   "seed": 80,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 115,
+   "longueur_q": 7.192508744149756
+  },
+  {
+   "seed": 81,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 109,
+   "longueur_q": 6.662665773575341
+  },
+  {
+   "seed": 82,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 176,
+   "longueur_q": 13.423113751840594
+  },
+  {
+   "seed": 83,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 121,
+   "longueur_q": 6.3584704806009675
+  },
+  {
+   "seed": 84,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 129,
+   "longueur_q": 7.425429948708679
+  },
+  {
+   "seed": 86,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 111,
+   "longueur_q": 7.759071766571727
+  },
+  {
+   "seed": 87,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 86,
+   "longueur_q": 4.5461729820158325
+  },
+  {
+   "seed": 88,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 124,
+   "longueur_q": 8.174961509633645
+  },
+  {
+   "seed": 89,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 140,
+   "longueur_q": 9.371780914682278
+  },
+  {
+   "seed": 90,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 137,
+   "longueur_q": 9.417687111428211
+  },
+  {
+   "seed": 91,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 102,
+   "longueur_q": 5.2572681038962585
+  },
+  {
+   "seed": 92,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 155,
+   "longueur_q": 8.962090941407249
+  },
+  {
+   "seed": 93,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 124,
+   "longueur_q": 8.383135070383622
+  },
+  {
+   "seed": 94,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 132,
+   "longueur_q": 6.922044181909598
+  },
+  {
+   "seed": 95,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 102,
+   "longueur_q": 4.97158525107124
+  },
+  {
+   "seed": 96,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 166,
+   "longueur_q": 9.171012254600587
+  },
+  {
+   "seed": 97,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 98,
+   "longueur_q": 6.208044350587093
+  },
+  {
+   "seed": 99,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 164,
+   "longueur_q": 16.876672537339605
+  }
+ ],
+ "BC": [
+  {
+   "seed": 0,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "link6 / planche",
+   "pas": null,
+   "longueur_q": 7.959567196929836
+  },
+  {
+   "seed": 1,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 127,
+   "longueur_q": 7.9812394739156645
+  },
+  {
+   "seed": 2,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.0517341334237895
+  },
+  {
+   "seed": 3,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 5.56586731161699
+  },
+  {
+   "seed": 5,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "hand / planche",
+   "pas": null,
+   "longueur_q": 3.023462404595247
+  },
+  {
+   "seed": 6,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.4259904843953177
+  },
+  {
+   "seed": 7,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.927942563095212
+  },
+  {
+   "seed": 8,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.6620728104126545
+  },
+  {
+   "seed": 9,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "cube / planche",
+   "pas": null,
+   "longueur_q": 4.253180896461491
+  },
+  {
+   "seed": 10,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.775304280861645
+  },
+  {
+   "seed": 11,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.9755259212140706
+  },
+  {
+   "seed": 12,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.969447826518958
+  },
+  {
+   "seed": 13,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 310,
+   "longueur_q": 6.68266383566022
+  },
+  {
+   "seed": 14,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.049387569687394
+  },
+  {
+   "seed": 16,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.497903215773853
+  },
+  {
+   "seed": 17,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 6.340116744391774
+  },
+  {
+   "seed": 18,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 331,
+   "longueur_q": 6.235566295709616
+  },
+  {
+   "seed": 19,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "left_finger / table_rouge_b",
+   "pas": null,
+   "longueur_q": 9.610279260791371
+  },
+  {
+   "seed": 20,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 5.196613194692567
+  },
+  {
+   "seed": 21,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 7.417255022413139
+  },
+  {
+   "seed": 22,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.389583196680557
+  },
+  {
+   "seed": 23,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.3018655557463896
+  },
+  {
+   "seed": 24,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.1490803551170274
+  },
+  {
+   "seed": 25,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 195,
+   "longueur_q": 9.631931790377868
+  },
+  {
+   "seed": 26,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.489641441413651
+  },
+  {
+   "seed": 27,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.300447418734832
+  },
+  {
+   "seed": 29,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "link5 / planche",
+   "pas": null,
+   "longueur_q": 3.0014976200072487
+  },
+  {
+   "seed": 30,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.5358478784825786
+  },
+  {
+   "seed": 31,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 201,
+   "longueur_q": 5.312993026362024
+  },
+  {
+   "seed": 32,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.480125940214956
+  },
+  {
+   "seed": 34,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.579318041775382
+  },
+  {
+   "seed": 35,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 335,
+   "longueur_q": 6.275009008847678
+  },
+  {
+   "seed": 36,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 310,
+   "longueur_q": 6.188350195773717
+  },
+  {
+   "seed": 37,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 9.048848928726846
+  },
+  {
+   "seed": 38,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 228,
+   "longueur_q": 6.9213726220946095
+  },
+  {
+   "seed": 39,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.1301910045885815
+  },
+  {
+   "seed": 40,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 5.140370018917244
+  },
+  {
+   "seed": 41,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.2952111355220426
+  },
+  {
+   "seed": 42,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.7366104913084195
+  },
+  {
+   "seed": 43,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 275,
+   "longueur_q": 5.848209366990526
+  },
+  {
+   "seed": 44,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.471833976206098
+  },
+  {
+   "seed": 45,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "link7 / planche",
+   "pas": null,
+   "longueur_q": 1.0199865692671812
+  },
+  {
+   "seed": 46,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 8.42088573756372
+  },
+  {
+   "seed": 47,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.1815236285034363
+  },
+  {
+   "seed": 48,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.7711186947921167
+  },
+  {
+   "seed": 49,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.4145834214176913
+  },
+  {
+   "seed": 50,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.9499852592209352
+  },
+  {
+   "seed": 52,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.6714037193758036
+  },
+  {
+   "seed": 53,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.7289661675115724
+  },
+  {
+   "seed": 54,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.5121835767659078
+  },
+  {
+   "seed": 55,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.812395460526719
+  },
+  {
+   "seed": 56,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.8162900454117166
+  },
+  {
+   "seed": 57,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 314,
+   "longueur_q": 7.471888233353921
+  },
+  {
+   "seed": 58,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 246,
+   "longueur_q": 5.650876382819144
+  },
+  {
+   "seed": 59,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 7.339428392525895
+  },
+  {
+   "seed": 60,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.574061301282847
+  },
+  {
+   "seed": 61,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 163,
+   "longueur_q": 8.862745611674564
+  },
+  {
+   "seed": 62,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.1791885899222265
+  },
+  {
+   "seed": 63,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 8.535150092843738
+  },
+  {
+   "seed": 64,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 7.918750193502789
+  },
+  {
+   "seed": 65,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.4740951800727835
+  },
+  {
+   "seed": 66,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 9.648245511843877
+  },
+  {
+   "seed": 67,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 210,
+   "longueur_q": 7.345821482579037
+  },
+  {
+   "seed": 68,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.5437975959251773
+  },
+  {
+   "seed": 69,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 7.31666665808283
+  },
+  {
+   "seed": 71,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 377,
+   "longueur_q": 6.067911430763209
+  },
+  {
+   "seed": 72,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.290607567049627
+  },
+  {
+   "seed": 73,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.37169160464166
+  },
+  {
+   "seed": 74,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.686451307489139
+  },
+  {
+   "seed": 75,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.14447054808514
+  },
+  {
+   "seed": 77,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 6.961055954943461
+  },
+  {
+   "seed": 78,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.551638182437463
+  },
+  {
+   "seed": 79,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 283,
+   "longueur_q": 6.759488462583705
+  },
+  {
+   "seed": 80,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "hand / planche",
+   "pas": null,
+   "longueur_q": 1.2086900935577685
+  },
+  {
+   "seed": 81,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.1117542221753296
+  },
+  {
+   "seed": 82,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "link5 / planche",
+   "pas": null,
+   "longueur_q": 1.262267879235273
+  },
+  {
+   "seed": 83,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.440665230392058
+  },
+  {
+   "seed": 84,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 6.089745693212529
+  },
+  {
+   "seed": 86,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.855305396489224
+  },
+  {
+   "seed": 87,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.0691586430610314
+  },
+  {
+   "seed": 88,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 367,
+   "longueur_q": 7.146147234227722
+  },
+  {
+   "seed": 89,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "hand / planche",
+   "pas": null,
+   "longueur_q": 0.8981473813931973
+  },
+  {
+   "seed": 90,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 5.07073215965536
+  },
+  {
+   "seed": 91,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.2353636586760937
+  },
+  {
+   "seed": 92,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 6.588935109126628
+  },
+  {
+   "seed": 93,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 12.5873178239019
+  },
+  {
+   "seed": 94,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 343,
+   "longueur_q": 6.808583574570454
+  },
+  {
+   "seed": 95,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.8134090329943326
+  },
+  {
+   "seed": 96,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.937025103880997
+  },
+  {
+   "seed": 97,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.1917045695321775
+  },
+  {
+   "seed": 99,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "hand / planche",
+   "pas": null,
+   "longueur_q": 0.36959349646161305
+  }
+ ],
+ "BC + DAgger": [
+  {
+   "seed": 0,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "hand / planche",
+   "pas": null,
+   "longueur_q": 5.653784332740682
+  },
+  {
+   "seed": 1,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 151,
+   "longueur_q": 8.080747296303164
+  },
+  {
+   "seed": 2,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.104723856775543
+  },
+  {
+   "seed": 3,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "link6 / planche",
+   "pas": null,
+   "longueur_q": 5.638062499685827
+  },
+  {
+   "seed": 5,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.4882209799483475
+  },
+  {
+   "seed": 6,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.4524588332430772
+  },
+  {
+   "seed": 7,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.191507250147199
+  },
+  {
+   "seed": 8,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 111,
+   "longueur_q": 6.070833035579151
+  },
+  {
+   "seed": 9,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "left_finger / table_rouge_b",
+   "pas": null,
+   "longueur_q": 2.875564824981502
+  },
+  {
+   "seed": 10,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.689251666701153
+  },
+  {
+   "seed": 11,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.036598521026755
+  },
+  {
+   "seed": 12,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 6.007190530019674
+  },
+  {
+   "seed": 13,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 395,
+   "longueur_q": 6.054327063320274
+  },
+  {
+   "seed": 14,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.1840485515206427
+  },
+  {
+   "seed": 16,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.039889076128306
+  },
+  {
+   "seed": 17,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "left_finger / planche",
+   "pas": null,
+   "longueur_q": 0.27889529265308244
+  },
+  {
+   "seed": 18,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 327,
+   "longueur_q": 6.688166072822951
+  },
+  {
+   "seed": 19,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "cube / planche",
+   "pas": null,
+   "longueur_q": 7.807881231692409
+  },
+  {
+   "seed": 20,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.6402155452013862
+  },
+  {
+   "seed": 21,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 381,
+   "longueur_q": 7.935782736070591
+  },
+  {
+   "seed": 22,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": true,
+   "collision": "",
+   "pas": 102,
+   "longueur_q": 6.148401120756044
+  },
+  {
+   "seed": 23,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.0324543348638535
+  },
+  {
+   "seed": 24,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.2994794347539678
+  },
+  {
+   "seed": 25,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 7.871283368006714
+  },
+  {
+   "seed": 26,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.624202433462412
+  },
+  {
+   "seed": 27,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.7974218453848967
+  },
+  {
+   "seed": 29,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 1.2780233820076137
+  },
+  {
+   "seed": 30,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.7644507343923945
+  },
+  {
+   "seed": 31,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "hand / planche",
+   "pas": null,
+   "longueur_q": 3.057990443004187
+  },
+  {
+   "seed": 32,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.5228831627854675
+  },
+  {
+   "seed": 34,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.0603143212935695
+  },
+  {
+   "seed": 35,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.105363355942152
+  },
+  {
+   "seed": 36,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 292,
+   "longueur_q": 6.000318105781761
+  },
+  {
+   "seed": 37,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.424756875232437
+  },
+  {
+   "seed": 38,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.9402351271275076
+  },
+  {
+   "seed": 39,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.968075406099749
+  },
+  {
+   "seed": 40,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.359577774588725
+  },
+  {
+   "seed": 41,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.1180236912883483
+  },
+  {
+   "seed": 42,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.3494413734606945
+  },
+  {
+   "seed": 43,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.2711072167821134
+  },
+  {
+   "seed": 44,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "link5 / planche",
+   "pas": null,
+   "longueur_q": 5.337151558762273
+  },
+  {
+   "seed": 45,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "hand / planche",
+   "pas": null,
+   "longueur_q": 0.767840174695977
+  },
+  {
+   "seed": 46,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "hand / planche",
+   "pas": null,
+   "longueur_q": 2.4266438897493936
+  },
+  {
+   "seed": 47,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "right_finger / table_rouge_b",
+   "pas": null,
+   "longueur_q": 3.1179512856548213
+  },
+  {
+   "seed": 48,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.280497241269748
+  },
+  {
+   "seed": 49,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.692371760105889
+  },
+  {
+   "seed": 50,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.040670273659033
+  },
+  {
+   "seed": 52,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.795200372143695
+  },
+  {
+   "seed": 53,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.781602020157745
+  },
+  {
+   "seed": 54,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 0.49044437295689114
+  },
+  {
+   "seed": 55,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.7972976013716444
+  },
+  {
+   "seed": 56,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.8749597133487748
+  },
+  {
+   "seed": 57,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.108160085379677
+  },
+  {
+   "seed": 58,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 346,
+   "longueur_q": 5.825967992608136
+  },
+  {
+   "seed": 59,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 0.7175204364637532
+  },
+  {
+   "seed": 60,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.615194759022015
+  },
+  {
+   "seed": 61,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.8391439009451385
+  },
+  {
+   "seed": 62,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 384,
+   "longueur_q": 6.016593442278022
+  },
+  {
+   "seed": 63,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.339630125100474
+  },
+  {
+   "seed": 64,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 1.1855226196939925
+  },
+  {
+   "seed": 65,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.577893218735089
+  },
+  {
+   "seed": 66,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 8.241938963921953
+  },
+  {
+   "seed": 67,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 7.329966686725877
+  },
+  {
+   "seed": 68,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 328,
+   "longueur_q": 6.097891259880382
+  },
+  {
+   "seed": 69,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.174638300378954
+  },
+  {
+   "seed": 71,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.321526243615443
+  },
+  {
+   "seed": 72,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.188928960476493
+  },
+  {
+   "seed": 73,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.395991609071665
+  },
+  {
+   "seed": 74,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.765883513342465
+  },
+  {
+   "seed": 75,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.747679439990809
+  },
+  {
+   "seed": 77,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.990019926784338
+  },
+  {
+   "seed": 78,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "hand / planche",
+   "pas": null,
+   "longueur_q": 4.912066893791249
+  },
+  {
+   "seed": 79,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 134,
+   "longueur_q": 6.492140507059804
+  },
+  {
+   "seed": 80,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "hand / planche",
+   "pas": null,
+   "longueur_q": 1.3324950871064662
+  },
+  {
+   "seed": 81,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.197485528047973
+  },
+  {
+   "seed": 82,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "link5 / planche",
+   "pas": null,
+   "longueur_q": 1.2246766643188014
+  },
+  {
+   "seed": 83,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.6120349131528786
+  },
+  {
+   "seed": 84,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.633480985014325
+  },
+  {
+   "seed": 86,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.239904028962099
+  },
+  {
+   "seed": 87,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.192308533671933
+  },
+  {
+   "seed": 88,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 327,
+   "longueur_q": 7.257405969096361
+  },
+  {
+   "seed": 89,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "link7 / planche",
+   "pas": null,
+   "longueur_q": 0.9828694911403898
+  },
+  {
+   "seed": 90,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 5.184557853421558
+  },
+  {
+   "seed": 91,
+   "posture": "plat",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.310360485807317
+  },
+  {
+   "seed": 92,
+   "posture": "tranche",
+   "sur_chemin": true,
+   "succes": true,
+   "collision": "",
+   "pas": 317,
+   "longueur_q": 9.797040970666528
+  },
+  {
+   "seed": 93,
+   "posture": "debout",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 4.178451234769632
+  },
+  {
+   "seed": 94,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 6.760029978809013
+  },
+  {
+   "seed": 95,
+   "posture": "tranche",
+   "sur_chemin": false,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.4899516032219746
+  },
+  {
+   "seed": 96,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 3.6040452331532773
+  },
+  {
+   "seed": 97,
+   "posture": "plat",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "",
+   "pas": null,
+   "longueur_q": 2.9839609165218186
+  },
+  {
+   "seed": 99,
+   "posture": "debout",
+   "sur_chemin": true,
+   "succes": false,
+   "collision": "hand / planche",
+   "pas": null,
+   "longueur_q": 0.38454108460474434
+  }
+ ]
+}

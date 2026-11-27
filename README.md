@@ -8,17 +8,20 @@
 ![Stable-Baselines3](https://img.shields.io/badge/Stable--Baselines3-SAC-6A5ACD)
 ![Status](https://img.shields.io/badge/status-work%20in%20progress-orange)
 
-![digital twin](media/digital_twin.gif)
+![obstacle](media/obstacle.gif)
 
-*Left: the real bench seen by a webcam. Right: its digital twin in MuJoCo, updated live. The scripted expert is first
-played in the twin; only then does the real Franka Panda replay exactly the same motion, while the twin follows it.
-[Full video](media/digital_twin.mp4).*
+*Left: the real bench seen by a webcam. Right: its digital twin in MuJoCo, updated live. A plank is placed on the
+table, the twin picks it up from the cameras, a path around it is chosen and played in the twin, and only then does
+the real Franka Panda replay the same motion. [Full video](media/obstacle.mp4) (the ~70 s spent planning are cut).*
 
 A **digital twin** of a real Franka Panda and its lab bench, built in MuJoCo: the robot, the tables (including
 their 2° slope and a cable hole), the cameras, the cube and the target, all calibrated in the robot's own frame.
 The twin is kept in sync with reality (a webcam places the cube and the target, the virtual arm copies the real joint
 angles), and every motion is **played in the twin first**: the real robot only executes it if the simulation succeeds
 and nothing has moved since. The webcam then measures what really happened, so plan and outcome can be compared.
+
+An obstacle can be added: a 54 cm plank, lying flat, on its edge or standing, anywhere on the table. A small
+network decides which way to go around it, and the same check-then-execute loop applies.
 
 The project also compares two ways of learning the task, **imitation learning** from a scripted expert and
 **reinforcement learning** from a reward. They are trained so far in a generic simulated scene; the next step is to
@@ -34,13 +37,20 @@ MuJoCo is used on a laptop CPU while the Isaac Sim workstation planned for the p
 | Cube detected by the webcam (vs the robot as ground truth) | **1.8 mm**, yaw **3.2°** (mean, cross-validated) |
 | Real pick-and-place, cube to target | **1.0–4.1 mm** (5 measured runs) |
 | Learning in simulation, 50 unseen episodes | behavior cloning from 2 cameras **50/50**, SAC **49/50** |
+| With the plank (91 scenes in the twin) | route chosen by IL **92%**, by RL **85%**, full planner 97% |
+| Real pick-and-place with the plank | 7 runs, cube **2.4–8.2 mm** from the target, no collision |
 
 **Contents**: [the digital twin on the real robot](#digital-twin-on-the-real-robot) ·
+[obstacle avoidance](#obstacle-avoidance-a-plank-on-the-table) ·
 [learning in simulation (IL vs RL)](#learning-in-simulation-imitation-vs-reinforcement-learning) ·
 [simulated RGB-D perception](#simulated-rgb-d-perception) · [repository layout](#repository-layout) ·
 [quick start](#quick-start) · [next steps](#next-steps)
 
 ## Digital twin on the real robot
+
+![digital twin](media/digital_twin.gif)
+
+*First version, without obstacle (23/11/2026). [Full video](media/digital_twin.mp4).*
 
 ![setup](media/setup.jpg)
 
@@ -145,6 +155,93 @@ webcam ──> detection (cube, target) ──> MuJoCo twin ──> expert plann
                                               │ joint angles (25 Hz)│ waypoints (R)
                                               └──── Ubuntu: serveur_robot.py ──> jumeau_robot (libfranka) ──> Panda
 ```
+
+## Obstacle avoidance: a plank on the table
+
+The obstacle is the lab's chipboard plank, 53.6 × 10 × 3 cm. It can lie flat (3 cm high), stand on its edge (10 cm)
+or stand upright (53.6 cm), anywhere on the table. The robot has to bring the cube to the target without touching it,
+and should not make a detour when the plank is not in the way.
+
+### What is learned
+
+My first try was the same as for the pick-and-place: behavior cloning, step by step in joint space, from a planner
+used as the expert (IK, detours around the plank, RRT-Connect, shortcuts). It reached 5% success, and 41% at best
+with DAgger. Over ~150 steps the small errors add up, and a single one near the plank is a collision.
+
+So I reduced what the network has to decide to three choices per episode:
+
+- the gripper orientation (5 candidates, the cube yaw modulo 90°);
+- the approach route and the transport route, each among 6: `direct`, `dessus` (go over), `cote+` / `cote-`
+  (along one long side), `bout+` / `bout-` (around one end).
+
+That makes 180 options. A classical generator does the rest, like MoveIt and the libfranka motion generator would:
+IK of the key poses (it checks they are reachable), waypoints of the chosen route, smooth joint trajectory. It does
+not search for a path, so if the chosen route goes through the plank, the run fails. The decision is what makes the
+run succeed.
+
+- **IL**: a classifier imitates a "discrete expert" that tries the 180 options in the twin and keeps the cheapest
+  one that works (792 training scenes).
+- **RL**: a contextual bandit. The robot tries one option in the twin and gets a reward (+10 minus 1 per second if
+  it succeeds, −10 if it touches the plank, −5 otherwise); a network learns Q(scene, option). No expert at all,
+  1800 trials.
+
+The network outputs a ranking. On the real robot, the first options are tested in the twin (whole trajectory,
+collisions), and among the safe ones the planner keeps the one that moves the arm the least.
+
+### Results in simulation
+
+91 evaluation scenes in the twin, the same for every method. 6–10% of random scenes have no solution at all (a
+standing plank between the robot base and the cube) and are left out.
+
+| Method | Success |
+|---|---|
+| Full planner (reference, ~1–30 s per plan) | 97% |
+| Discrete expert (best of the 180 options) | 91% |
+| IL decision, then checked in the twin | 81% → **92%** |
+| RL decision, then checked in the twin | 74% → **85%** |
+| IL without seeing the plank (ablation) | 62% |
+| Always go straight | 58% |
+| Random option | 11% |
+| Step-by-step behavior cloning (DAgger) | 5% (41%) |
+
+![decisions](avec_obstacle/results/compare_decisions.png)
+
+Changing *what* the network learns mattered much more than the learning algorithm: from 5% to 81% with fewer
+training scenes. The ablation shows the plank is really used: without it, the network almost always goes straight.
+RL gets close to IL without any expert, from the reward only.
+
+### Seeing the plank
+
+Two cameras, which do not see the same things:
+
+- **The webcam** (fixed, sees the whole table) fits a 3D box to the plank silhouette, for each of the three
+  postures, and keeps the best one. It finds the plank anywhere, but it only has a 2D view.
+- **The wrist D435**, from an observation pose above the table, gives a point cloud in the robot frame. It is
+  re-registered at every photo on the tag and the table plane (about 8 mm of correction), then the clusters above
+  the table give the plank footprint and height, hence its posture. It measures in 3D, but cannot measure what is
+  closer than ~28 cm, like the top of the standing plank.
+
+The two agree within 8–9 mm. The D435 is used as the reference when it sees the whole plank; the webcam covers the
+rest and tells the D435 which cluster is the plank (the robot's control box on the table looks like one). The plank
+is "stable" after three consistent estimates, and no plan is made while the two cameras disagree (someone moving the
+plank, a hand in the view). Running the webcam fit in its own process brought an update from ~18 s to ~5 s inside
+the twin, where it competed with MuJoCo, the video and the D435 for the same Python interpreter.
+
+### Real runs
+
+26–27/11/2026, speed factor 0.1. 7 runs went to the end (plank on its edge 3 times, standing 4 times): the cube
+ended **2.4 to 8.2 mm** from the target, measured by the webcam, and no run was stopped by a collision. The log of
+every run is in `jumeau/results/`.
+
+Other attempts, and what they taught:
+
+- 4 refused by libfranka before moving: the robot had just been moved by hand and was not back in its ready mode.
+- 4 stopped by me: the chosen grasp could only be reached by turning the wrist ~200° and flipping the whole arm,
+  which pulls on the D435 cable. The twin had accepted it because it was collision-free. The planner now compares
+  several safe plans, keeps the one that moves the least, and refuses any plan that turns the wrist more than 150°.
+
+Still open: with a standing plank, the webcam and the D435 do not always agree on its yaw, and planning can take
+up to ~30 s when the network's first choices are not safe and the full planner takes over.
 
 ## Learning in simulation: imitation vs reinforcement learning
 
@@ -318,9 +415,20 @@ perception/
           detection.py        cube (3D model fit) and target on the real webcam
           evaluer_detection.py, corriger_detection.py, erreur_detection.py, verifier_lacet.py   error vs the robot
           d435_tag.py, calib_d435.py   hand-eye calibration of the wrist D435
+          detection_planche.py, recalage_d435.py   plank from the webcam and the D435, D435 re-registration
+          mesure_crayon.py, evaluer_crayon.py      guided pencil measurements (grips the pencil first) and error
           superposition.py    real image vs rendered twin
           *.json              calibration of the lab setup
+avec_obstacle/
+          common/             plank (postures, placement), twin env with the plank, planner expert,
+                              decisions (routes, generator, evaluation), common evaluation
+          il/                 decision IL (+ ablation), step-by-step BC and DAgger, comparisons
+          rl/                 decision RL (contextual bandit), SAC with demonstrations
+          videos/             video_planche.py
+          results/            comparison tables and figures
 jumeau/   jumeau_live.py      live twin: E = simulate, R = execute, V = record real | twin video
+          planif_planche.py   with the plank: ranked decisions checked in the twin, least wrist rotation
+          suivi_planche.py    plank tracking (webcam fit in its own process, D435, fusion)
           planif_expert.py    expert as joint waypoints, replay and checks in MuJoCo
           lien_robot.py       client for the Ubuntu server
           video_sim.py        clean video / GIF of a simulated episode
@@ -367,6 +475,17 @@ python perception/recaler_webcam.py       # tag visible: update the webcam pose
 python jumeau/jumeau_live.py --robot <IP of the Ubuntu PC>
 python jumeau/jumeau_live.py              # without robot: simulation only
 python jumeau/video_sim.py --gif          # video of the last trajectory, simulated
+python jumeau/jumeau_live.py --robot <IP> --planche --d435   # with the plank (O = observation pose)
+```
+
+**Obstacle part, in simulation** (models are not stored, train them first):
+
+```bash
+python avec_obstacle/il/record_decisions_planche.py 3000     # every option evaluated per scene (parallel)
+python avec_obstacle/il/train_decision_il.py                 # IL, then --sans-planche for the ablation
+python avec_obstacle/rl/train_decision_rl.py 30 --essais 200 # RL, no expert
+python avec_obstacle/il/compare_decisions.py                 # table + figure
+python avec_obstacle/videos/video_planche.py --politique decision_il --mode jumeau
 ```
 
 ## Next steps
@@ -376,4 +495,7 @@ python jumeau/video_sim.py --gif          # video of the last trajectory, simula
   check-then-execute loop, against the expert.
 - Use the wrist RealSense D435 (already hand-eye calibrated): check the grasp, refine the cube position just before
   grasping, see obstacles in depth.
-- Obstacle avoidance (part of the project subject), human demonstrations through teleoperation, then Isaac Sim.
+- Use the D435 depth for a full 3D model of the scene, not only known objects on a plane, and keep the twin in
+  sync with it automatically.
+- Re-measure the cube with the wrist camera just before grasping.
+- Human demonstrations through teleoperation, then Isaac Sim.

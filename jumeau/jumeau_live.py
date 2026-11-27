@@ -9,8 +9,18 @@
      virtuel suit le vrai en direct (angles reçus toutes les 40 ms). À la fin, le bras revient à sa
      pose de départ et la webcam mesure où est réellement le cube -> jumeau/essais_reels.json.
 
+AVEC LA PLANCHE (option --planche, 26/11) : la planche est suivie EN CONTINU (webcam ; + D435 au
+poignet avec --d435, recalée à chaque photo sur le tag 0 et la table) et placée dans la scène dès
+qu'elle est stable. Touche O : le bras monte en pose « perchée » (vue d'ensemble pour la D435, tag
+visible), après vérification du trajet dans le jumeau puis R. E fait choisir le trajet par la
+politique (--politique il : réseau de l'IL + vérification dans le jumeau, planificateur complet en
+secours ; --politique expert : planificateur complet), avec retour à la pose de départ, puis le
+rejoue dans MuJoCo (tout contact avec la planche = refus). R vérifie en plus que la planche n'a pas
+bougé depuis E.
+
 Touches, dans la fenêtre « Jumeau » (cliquer dessus d'abord) :
     E = simuler   R = exécuter sur le robot   L = revenir à la vue en direct
+    O = aller en pose perchée d'observation (avec --planche --d435), puis R pour y aller vraiment
     V = démarrer / arrêter l'enregistrement vidéo (réel | jumeau côte à côte -> jumeau/videos/)
     C = changer la vue du jumeau dans la vidéo (vue webcam -> vue 3/4 -> D435)
     Q / Échap = quitter
@@ -20,7 +30,10 @@ Usage (PowerShell, venv activé, à la racine du dépôt) :
     python jumeau/jumeau_live.py --robot 10.254.79.65          -> avec le robot
     python jumeau/jumeau_live.py                               -> simulation seule (R désactivé)
     python jumeau/jumeau_live.py --image perception/vue_webcam.png   -> test sans webcam
+    python jumeau/jumeau_live.py --robot 10.254.79.65 --planche          -> avec la planche (IL)
+    python jumeau/jumeau_live.py --robot 10.254.79.65 --planche --d435   -> planche mesurée aussi par la D435
 Options : --vitesse 0.1 (facteur de vitesse libfranka, 0.02 à 0.3)   --accel 2 (rejeu sim 2x plus vite)
+          --politique il|expert (avec --planche)
 """
 import collections
 import datetime
@@ -50,6 +63,7 @@ TOL_POS, TOL_LACET = 0.004, 6.0
 TOL_CHANGE_POS, TOL_CHANGE_LACET = 0.006, 8.0   # scène « modifiée » depuis la simulation
 TOL_Q_DEPART = 0.03          # rad : le robot doit être là où la simulation l'a pris
 ECART_FK_MAX = 10.0          # mm : au-delà, modèle sim et EE de Desk ne collent pas -> R bloqué
+IOU_PLANCHE_MIN = 0.7        # R : la tache de la planche doit recouvrir celle vue au moment de E
 FPS_VIDEO = 25
 VW, VH = 960, 540            # taille de chaque moitié de la vidéo
 BANDEAU_VIDEO = 100          # 540 + 100 = 640 : dimensions multiples de 16 pour le H.264
@@ -274,7 +288,21 @@ def main():
     ip = arg("--robot")
     vitesse = float(np.clip(arg("--vitesse", 0.1, float), 0.02, 0.3))
     accel = arg("--accel", 1.0, float)
-    j = Jumeau()
+    avec_planche = "--planche" in sys.argv
+    politique = arg("--politique", "il")
+    if avec_planche:
+        import detection_planche as dpl
+        from concurrent.futures import ProcessPoolExecutor
+        from planif_planche import (OBS_Q, JumeauPlanche, planifier_deplacement, planifier_planche,
+                                    prechauffer, rejouer_deplacement)
+        # la planification (IK, RRT, choix de l'IL) tourne dans un PROCESSUS à part : dans un thread,
+        # elle partagerait le verrou de Python avec la webcam, la D435 et l'affichage (4x plus lente)
+        pool = ProcessPoolExecutor(max_workers=1)
+        pool.submit(prechauffer)
+        from suivi_planche import AGE_MAX_D435, D435Continu, PlancheWebcam, StabilitePlanche
+        j = JumeauPlanche()
+    else:
+        j = Jumeau()
     m, d = j.model, j.data
     detecteur = Detecteur(arg("--image"))
     robot = None
@@ -282,11 +310,24 @@ def main():
         robot = EtatRobot(ip)
         robot.start()
     stab = Stabilite()
+    table_masque = dpl.masque_table(detecteur.cam) if avec_planche else None
+    suivi_w = suivi_d = stab_pl = None
+    if avec_planche:
+        suivi_w = PlancheWebcam(detecteur)
+        suivi_w.start()
+        stab_pl = StabilitePlanche()
+        if "--d435" in sys.argv:
+            if robot is None:
+                print("[attention] --d435 sans --robot : la D435 a besoin de la pose du bras, ignorée")
+            else:
+                suivi_d = D435Continu(robot, suivi_w)
+                suivi_d.start()
 
     S = {"mode": "live", "msg": ("Vue en direct. E = simuler l'expert.", BLANC),
          "plan": None, "gen": None, "bilan": None, "exec": None, "exec_res": None,
          "mesure_apres": None, "ecart_fk": None, "video": None, "vue_video": 0,
-         "ombre": None, "ligne_robot": ""}
+         "ombre": None, "ligne_robot": "", "planche": None, "planche_masque": None,
+         "planche_txt": "Planche : recherche...", "tache": None, "d435_txt": ""}
     os.makedirs(os.path.join(HERE, "essais_img"), exist_ok=True)
     os.makedirs(os.path.join(HERE, "videos"), exist_ok=True)
     rendu = {"r": None}
@@ -366,6 +407,23 @@ def main():
                 return
         else:
             q0 = HOME_Q.copy()
+        if avec_planche:
+            vp = stab_pl.valeur()
+            if vp is None or not vp[1]:
+                S["msg"] = ("E refusé : planche non vue ou pas stable (" + S["planche_txt"] + ").", ROUGE)
+                return
+            img_c = image_brute_corrigee()
+            S["planche"], S["planche_masque"] = vp[0], (masque_reduit(img_c) if img_c is not None else None)
+            stamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            if img_c is not None:
+                cv2.imwrite(os.path.join(HERE, "essais_img", f"{stamp}_E_webcam.png"), img_c)
+            rd = suivi_d.lire() if suivi_d else None
+            if rd is not None:
+                cv2.imwrite(os.path.join(HERE, "essais_img", f"{stamp}_E_d435.png"), rd[2])
+            with ctx.lock():
+                j.poser_planche(S["planche"])
+            lancer_planif_planche(q0, cube, lacet, cible)
+            return
         etapes, msg = planifier(j, q0, cube, lacet, cible)
         if etapes is None:
             S["msg"] = (f"Plan impossible : {msg}", ROUGE)
@@ -377,6 +435,94 @@ def main():
         S["mode"] = "sim"
         S["t_sim"], S["t_horloge"] = 0.0, time.time()
         S["msg"] = (f"Simulation de l'expert... ({msg})", JAUNE)
+
+    # ---------------- P : mesure de la planche (thread : ~3 s webcam, ~5 s de plus avec la D435)
+    def image_brute_corrigee():
+        with detecteur.verrou:
+            im = detecteur.img
+        return None if im is None else im[1].copy()
+
+    def masque_reduit(img_c):
+        return cv2.resize(dpl.masque_planche(img_c, table_masque), (320, 180), interpolation=cv2.INTER_NEAREST) > 0
+
+    def lancer_observation():
+        """O : trajet vers la pose perchée, vérifié dans le jumeau (puis R pour l'exécuter)."""
+        if not avec_planche or robot is None:
+            S["msg"] = ("O : il faut --planche et --robot.", ROUGE)
+            return
+        try:
+            q0 = np.array(lien_robot.etat(ip)["q"])
+        except Exception as ex:   # noqa: BLE001
+            S["msg"] = (f"Robot injoignable : {str(ex)[:60]}", ROUGE)
+            return
+        v = stab.valeur()
+        vp = stab_pl.valeur()
+        S["mode"] = "planif"
+        S["msg"] = ("Trajet vers la pose perchée...", JAUNE)
+
+        fut = pool.submit(planifier_deplacement, q0, OBS_Q, v[0] if v else None, v[1] if v else 0.0,
+                          v[2] if v else None, vp[0] if vp else None)
+
+        def fini(f):
+            try:
+                et, msg = f.result()
+                S["tache"] = ("deplacement", (et, q0) if et else None, msg)
+            except Exception as ex:   # noqa: BLE001
+                S["tache"] = ("deplacement", None, f"erreur : {str(ex)[:70]}")
+
+        fut.add_done_callback(fini)
+
+    def lancer_planif_planche(q0, cube, lacet, cible):
+        S["mode"] = "planif"
+        S["msg"] = (f"Planification ({politique}) avec la planche... (jusqu'à ~30 s pour un poteau)", JAUNE)
+        fut = pool.submit(planifier_planche, q0, cube, lacet, cible, S["planche"], politique)
+
+        def fini(f):
+            try:
+                et, msg, info = f.result()
+                S["tache"] = ("plan", (et, info, q0, cube, lacet, cible), msg)
+            except Exception as ex:   # noqa: BLE001
+                S["tache"] = ("plan", None, f"erreur de planification : {str(ex)[:70]}")
+
+        fut.add_done_callback(fini)
+
+    def recevoir_tache():
+        """Résultats des threads P (mesure) et E (planification), appliqués dans la boucle principale."""
+        t, S["tache"] = S["tache"], None
+        if t is None:
+            return
+        quoi, val, msg = t
+        if quoi == "deplacement":
+            if val is None:
+                S["mode"] = "live"
+                S["msg"] = (f"O impossible : {msg}", ROUGE)
+                return
+            et, q0 = val
+            S["plan"] = {"type": "deplacement", "q_depart": q0.tolist(), "etapes": et, "msg_plan": msg}
+            with ctx.lock():
+                S["gen"] = rejouer_deplacement(j, q0, et)
+            S["bilan"] = None
+            S["mode"] = "sim"
+            S["t_sim"], S["t_horloge"] = 0.0, time.time()
+            S["msg"] = (f"Simulation du trajet ({msg})", JAUNE)
+            return
+        if val is None or val[0] is None:
+            S["mode"] = "live"
+            S["msg"] = (f"Plan impossible : {msg}", ROUGE)
+            return
+        et, info, q0, cube, lacet, cible = val
+        S["plan"] = {"cube": cube.tolist(), "lacet": lacet, "cible": cible.tolist(),
+                     "q_depart": q0.tolist(), "etapes": et, "msg_plan": msg, "planche": S["planche"],
+                     "politique": politique, "info": info}
+        with open(os.path.join(HERE, "dernier_plan_planche.json"), "w") as fj:
+            json.dump(vers_json(et, q0, vitesse, {"cube": cube.tolist(), "lacet": lacet, "cible": cible.tolist(),
+                                                  "planche": S["planche"], "message": msg}), fj, indent=1)
+        with ctx.lock():
+            S["gen"] = rejouer(j, q0, cube, lacet, cible, et)
+        S["bilan"] = None
+        S["mode"] = "sim"
+        S["t_sim"], S["t_horloge"] = 0.0, time.time()
+        S["msg"] = (f"Simulation... ({msg})", JAUNE)
 
     # ---------------- R : exécution réelle
     def lancer_execution():
@@ -390,21 +536,47 @@ def main():
             S["msg"] = (f"R refusé : écart sim/réel de {S['ecart_fk']:.0f} mm sur la pince (EE de Desk ?).", ROUGE)
             return
         p = S["plan"]
+        deplacement = p.get("type") == "deplacement"
         v = stab.valeur()
-        if v is None:
+        if deplacement:
+            pass
+        elif v is None:
             S["msg"] = ("R refusé : cube ou cible plus détecté.", ROUGE)
             return
-        if (np.linalg.norm(v[0] - p["cube"]) > TOL_CHANGE_POS or np.linalg.norm(v[2] - p["cible"]) > TOL_CHANGE_POS
+        elif (np.linalg.norm(v[0] - p["cube"]) > TOL_CHANGE_POS or np.linalg.norm(v[2] - p["cible"]) > TOL_CHANGE_POS
                 or abs(ecart_lacet(v[1], p["lacet"])) > TOL_CHANGE_LACET):
             S["msg"] = ("R refusé : la scène a bougé depuis la simulation. Refaire E.", ROUGE)
             return
+        if avec_planche and not deplacement:
+            img_c = image_brute_corrigee()
+            if img_c is None or S["planche_masque"] is None:
+                S["msg"] = ("R refusé : planche non vérifiable (pas d'image).", ROUGE)
+                return
+            a, b = masque_reduit(img_c), S["planche_masque"]
+            iou = (a & b).sum() / max((a | b).sum(), 1)
+            if iou < IOU_PLANCHE_MIN:
+                S["msg"] = (f"R refusé : la planche a bougé depuis E (recouvrement {iou:.2f}). Refaire E.", ROUGE)
+                return
         q = q_robot_frais()
         if q is None or np.abs(q - np.array(p["q_depart"])).max() > TOL_Q_DEPART:
             S["msg"] = ("R refusé : le robot a bougé depuis la simulation (ou pose non lue). Refaire E.", ROUGE)
             return
+        if deplacement:
+            traj = vers_json(p["etapes"], p["q_depart"], vitesse, {"deplacement": "pose perchee"})
+            c0 = v[0] if v else np.array([0.9, -0.9])
+            a = np.radians(v[1]) if v else 0.0
+            S["ombre"] = {"q": np.array(p["q_depart"]), "pince": 0.08, "attache": None,
+                          "cube": (np.array([*c0, red_z(*c0) + CUBE_HALF]),
+                                   np.array([[np.cos(a), -np.sin(a), 0], [np.sin(a), np.cos(a), 0], [0, 0, 1]]))}
+            S["ligne_robot"] = ""
+            robot.pause.set()
+            lancer_thread_execution(traj)
+            S["msg"] = (f"Le robot monte en pose perchée (vitesse {vitesse}).", JAUNE)
+            return
         traj = vers_json(p["etapes"], p["q_depart"], vitesse,
                          {"cube": p["cube"], "lacet": p["lacet"], "cible": p["cible"],
-                          "bilan_sim": S["bilan"]["message"]})
+                          "bilan_sim": S["bilan"]["message"], "planche": p.get("planche"),
+                          "politique": p.get("politique")})
         with open(os.path.join(HERE, "derniere_trajectoire.json"), "w") as f:
             json.dump(traj, f, indent=1)
         a = np.radians(p["lacet"])
@@ -414,6 +586,10 @@ def main():
         S["ligne_robot"] = ""
         robot.pause.set()
 
+        lancer_thread_execution(traj)
+        S["msg"] = (f"EXECUTION sur le vrai robot (vitesse {vitesse}) - le jumeau suit le robot.", JAUNE)
+
+    def lancer_thread_execution(traj):
         def suivi(msg):
             if "q" in msg:
                 S["ombre"]["q"] = np.array(msg["q"])
@@ -434,7 +610,6 @@ def main():
         S["exec"] = threading.Thread(target=tache, daemon=True)
         S["exec"].start()
         S["mode"] = "execution"
-        S["msg"] = (f"EXECUTION sur le vrai robot (vitesse {vitesse}) - le jumeau suit le robot.", JAUNE)
 
     def enregistrer_essai(erreur_mm, vue):
         stamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -443,7 +618,8 @@ def main():
         r = S["exec_res"] or {}
         p = S["plan"]
         essais.append({"date": stamp, "cube": p["cube"], "lacet": p["lacet"], "cible": p["cible"],
-                       "plan": p["msg_plan"], "vitesse": vitesse,
+                       "plan": p["msg_plan"], "vitesse": vitesse, "planche": p.get("planche"),
+                       "politique": p.get("politique"), "choix": (p.get("info") or {}).get("choix"),
                        "sim": {k: S["bilan"].get(k) for k in ("message", "erreur_depose_mm")},
                        "robot_ok": r.get("ok"), "robot_code": r.get("code"), "duree_s": r.get("duree_s"),
                        "erreur_reelle_mm": erreur_mm, "log": r.get("log", []), "mesures": r.get("mesures", []),
@@ -486,6 +662,45 @@ def main():
                     stab.ajouter(snap[2], snap[3])
             val = stab.valeur()
             r = robot.lire() if robot else None
+            recevoir_tache()
+            vp, img_d435 = None, None
+            if avec_planche:
+                rw = suivi_w.lire()
+                rd = suivi_d.lire() if suivi_d else None
+                rd_ok = rd if (rd and time.time() - rd[0] < AGE_MAX_D435) else None
+                t_new = max(rw[0] if rw else 0.0, rd_ok[0] if rd_ok else 0.0)
+                if t_new > 0:
+                    stab_pl.ajouter(t_new, rw[1] if rw else None, rd_ok[1] if rd_ok else None)
+                vp = stab_pl.valeur()
+                S["planche_txt"] = vp[2] if vp else "Planche : non vue"
+                if stab_pl.desaccord:
+                    suivi_w.forcer_recherche = True          # la webcam refait une recherche complète
+                if vp is not None and vp[0] is None:
+                    vp = None
+                if time.time() - S.get("t_journal", 0.0) > 1.0:          # journal pour le diagnostic
+                    S["t_journal"] = time.time()
+                    def _pl(x):
+                        return (None if not x else
+                                f"{x['posture']} ({x['x']:.3f};{x['y']:+.3f}) {np.degrees(x['lacet']):.0f}deg")
+                    lig = {"t": datetime.datetime.now().strftime("%H:%M:%S"), "mode": S["mode"],
+                           "webcam": _pl(rw[1]) if rw else None,
+                           "d435": _pl(rd_ok[1]["planche"]) if rd_ok and rd_ok[1].get("planche") else None,
+                           "d435_info": (rd_ok[1].get("info", {}).get("planche_rejet") if rd_ok else "pas de photo"),
+                           "fusion": S["planche_txt"],
+                           "q": [round(float(v), 3) for v in r[1]["q"]] if r else None,
+                           "msg": S["msg"][0]}
+                    with open(os.path.join(HERE, "journal_planche.jsonl"), "a", encoding="utf-8") as fj:
+                        fj.write(json.dumps(lig, ensure_ascii=False) + "\n")
+                if suivi_d:
+                    if rd_ok:
+                        info = rd_ok[3]
+                        rec = (f"recalage tag+table OK (correction {info['decalage_table_mm']:.0f} mm sur la table)"
+                               if info.get("ok") else f"sans recalage ({info.get('raison', '?')}) -> O = pose perchée")
+                        S["d435_txt"] = f"D435 : photo il y a {time.time() - rd_ok[0]:.0f} s, {rec}"
+                        img_d435 = rd_ok[2]
+                    else:
+                        S["d435_txt"] = ("D435 : " + (suivi_d.erreur or "attend que le bras soit immobile"
+                                                      " (O = pose perchée)"))
 
             with v.lock():
                 if cam_etat["change"]:
@@ -503,6 +718,8 @@ def main():
                         j.poser_bras(q, larg if larg and larg > 0 else 0.08)
                     if val is not None:
                         j.poser_objets(val[0], val[1], val[2])
+                    if vp is not None and vp[1]:
+                        j.poser_planche(vp[0])
                 elif S["mode"] in ("execution", "mesure") and S["ombre"] is not None:
                     maj_ombre()
                 elif S["mode"] == "sim":
@@ -535,7 +752,10 @@ def main():
             # fin d'exécution -> mesure de la position réelle du cube par la webcam
             if S["mode"] == "execution" and S["exec"] is not None and not S["exec"].is_alive():
                 res = S["exec_res"]
-                if res.get("ok"):
+                if res.get("ok") and S["plan"].get("type") == "deplacement":
+                    S["mode"] = "live"
+                    S["msg"] = ("Robot en pose perchée : la D435 voit la scène et le tag. E = simuler.", VERT)
+                elif res.get("ok"):
                     S["mode"] = "mesure"
                     S["mesure_apres"] = time.time() + 1.5
                     S["msg"] = ("Robot revenu au départ. Mesure du cube par la webcam...", JAUNE)
@@ -543,7 +763,8 @@ def main():
                     dern = (res.get("log") or ["?"])[-1]
                     S["mode"] = "fini"
                     S["msg"] = (f"ROBOT : arrêt (code {res.get('code')}) : {dern[:70]}", ROUGE)
-                    enregistrer_essai(None, vue)
+                    if S["plan"].get("type") != "deplacement":
+                        enregistrer_essai(None, vue)
             if S["mode"] == "mesure" and val is not None and val[3] and val[4] > S["mesure_apres"]:
                 err = float(np.linalg.norm(val[0] - np.array(S["plan"]["cible"])) * 1000)
                 S["mode"] = "fini"
@@ -575,8 +796,19 @@ def main():
                       VERT if fk is not None and fk <= ECART_FK_MAX and age < 3 else JAUNE)
             rec = (f"REC {S['video'].duree():4.0f} s  (V = arreter, C = vue du jumeau : {VUES_VIDEO[S['vue_video']]})"
                    if S["video"] else "V = enregistrer une video")
-            aide = ("E = simuler   R = executer   L = vue en direct   " + rec + "   Q = quitter",
-                    ROUGE if S["video"] else GRIS)
+            aide = (("O = pose perchee   " if avec_planche and robot else "") + "E = simuler   R = executer   L = vue en direct   "
+                    + rec + "   Q = quitter", ROUGE if S["video"] else GRIS)
+            lignes_pl = []
+            if avec_planche:
+                ok_pl = vp is not None and vp[1]
+                lignes_pl.append((S["planche_txt"], VERT if ok_pl else JAUNE))
+                if suivi_d:
+                    lignes_pl.append((S["d435_txt"], VERT if img_d435 is not None else JAUNE))
+                if vue is not None and img_d435 is not None:      # vignette D435 en haut à droite
+                    vue = vue.copy()
+                    vig = cv2.resize(img_d435, (320, 180))
+                    vue[0:180, vue.shape[1] - 320:] = vig
+                    cv2.rectangle(vue, (vue.shape[1] - 320, 0), (vue.shape[1] - 1, 179), (255, 255, 255), 1)
 
             # ---------------- vidéo : réel | jumeau, avec le bandeau d'état
             if S["video"] is not None and vue is not None:
@@ -587,16 +819,18 @@ def main():
                     cv2.putText(bas, txt, (12, 28 + 30 * i), cv2.FONT_HERSHEY_SIMPLEX, 0.65, col, 1, cv2.LINE_AA)
                 compo = np.vstack([np.hstack([gauche, droite]), bas])
                 S["video"].ecrire(compo)
-                ecran = panneau(cv2.resize(np.hstack([gauche, droite]), (1440, 405)), [l1, l2, S["msg"], aide],
-                                largeur=1440, hauteur=405)
+                ecran = panneau(cv2.resize(np.hstack([gauche, droite]), (1440, 405)),
+                                [l1] + lignes_pl + [l2, S["msg"], aide], largeur=1440, hauteur=405)
             else:
-                ecran = panneau(vue, [l1, l2, S["msg"], aide])
+                ecran = panneau(vue, [l1] + lignes_pl + [l2, S["msg"], aide])
             cv2.imshow("Jumeau", ecran)
             k = cv2.waitKey(1) & 0xFF
             if k in (ord("q"), 27):
                 break
             if k == ord("e") and S["mode"] in ("live", "sim_fini", "fini"):
                 lancer_simulation()
+            elif k == ord("o") and S["mode"] in ("live", "sim_fini", "fini"):
+                lancer_observation()
             elif k == ord("r"):
                 lancer_execution()
             elif k == ord("l") and S["mode"] in ("sim_fini", "fini", "sim"):
@@ -611,6 +845,11 @@ def main():
     if S["video"] is not None:
         basculer_video()
     detecteur.actif = False
+    for t in (suivi_w, suivi_d):
+        if t is not None:
+            t.actif = False
+    if avec_planche:
+        pool.shutdown(wait=False, cancel_futures=True)
     if robot:
         robot.actif = False
     if rendu["r"] is not None:

@@ -228,10 +228,12 @@ def detecter(img_c, cam, seuils):
                                 for x, y in cv2.convexHull(ct).reshape(-1, 2)], np.float32)
                 (_, _), (_, _), ang = cv2.minAreaRect(pts)
                 lacet = float(ang % 90)
+            p_brut = p.copy()
             if CORRECTION.get(nom) is not None:              # correction fine apprise au robot
                 p = np.r_[np.r_[p[:2], 1.0] @ CORRECTION[nom], p[2]]
             meilleur = {"pixel": [round(u, 1), round(v, 1)], "aire_px": int(aire),
-                        "xyz": [round(float(x), 4) for x in p], "contour": ct, "methode": METHODE}
+                        "xyz": [round(float(x), 4) for x in p], "contour": ct, "methode": METHODE,
+                        "xyz_brut": [round(float(x), 4) for x in p_brut]}
             if lacet is not None:
                 meilleur["lacet_deg"] = round(lacet, 1)
             if iou is not None:
@@ -251,9 +253,15 @@ def annoter(img_c, res, cam):
             continue
         cv2.drawContours(out, [r["contour"]], -1, col, 2)
         if nom == "cube" and r.get("methode") == "modele":
-            x, y = r["xyz"][:2]
+            # 27/11 : le cube 3D ajusté est dessiné là où la webcam le VOIT (avant la correction fine) :
+            # il doit coller au cube de l'image. Le petit rond blanc = position corrigée, celle visée
+            # par le robot (décalage = correction apprise au crayon, pas une erreur de détection).
+            x, y = r.get("xyz_brut", r["xyz"])[:2]
             sil = silhouette_cube(cam, x, y, np.radians(r["lacet_deg"]), 0, 0)
             cv2.polylines(out, [sil], True, (255, 255, 255), 1)
+            if "xyz_brut" in r and hasattr(cam, "point_vers_pixel"):
+                uc, vc = cam.point_vers_pixel(np.array(r["xyz"]))
+                cv2.circle(out, (int(uc), int(vc)), 4, (255, 255, 255), 1)
         u, v = map(int, r["pixel"])
         cv2.drawMarker(out, (u, v), (255, 255, 255), cv2.MARKER_CROSS, 18, 2)
         x, y, z = r["xyz"]

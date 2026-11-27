@@ -25,3 +25,12 @@ perception/essais_img/
 perception/d435_calib/
 perception/calib_webcam*/
 perception/*.png
+jumeau/journal_planche.jsonl
+jumeau/dernier_plan_planche.json
+perception/captures_planche/
+perception/verite_*.txt
+perception/*.npz
+avec_obstacle/il/*.csv
+avec_obstacle/rl/*.csv
+avec_obstacle/videos/*.mp4
+avec_obstacle/videos/*.gif
